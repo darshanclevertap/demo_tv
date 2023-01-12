@@ -1,7 +1,5 @@
 package com.clevertap.ct_demo_androidtv
 
-import java.util.Collections
-
 import android.os.Bundle
 import androidx.leanback.app.BackgroundManager
 import androidx.leanback.app.BrowseSupportFragment
@@ -9,6 +7,7 @@ import androidx.core.content.ContextCompat
 import android.util.DisplayMetrics
 import android.util.Log
 import androidx.leanback.widget.*
+import com.clevertap.ct_demo_androidtv.Section.Movie
 
 class MainFragment : BrowseSupportFragment() {
     @Deprecated("")
@@ -36,18 +35,18 @@ class MainFragment : BrowseSupportFragment() {
         setOnItemViewSelectedListener()
 
         //loadRows-------------------
-        val list = MovieList.list
         val rowsAdapter = ArrayObjectAdapter(ListRowPresenter())
 
-        val rows =6
-        for (i in 0 until rows) {
-            if (i != 0) Collections.shuffle(list)
-            val listRowAdapter = ArrayObjectAdapter( CardPresenter())
-            for (j in 0 until 15) { listRowAdapter.add(list[j % 5]) }
-            val header = HeaderItem(i.toLong(), MovieList.MOVIE_CATEGORY[i])
-            rowsAdapter.add(ListRow(header, listRowAdapter))
+        Section.data().forEachIndexed { i, it ->
+            val cardsAdapter = ArrayObjectAdapter(CardPresenter())
+            cardsAdapter.addAll(0,it.entries)
+
+            val header = HeaderItem(i.toLong(),it.header)
+            val listRow = ListRow(header,cardsAdapter)
+            rowsAdapter.add(listRow)
         }
         adapter = rowsAdapter
+
 
 
     }
@@ -72,10 +71,14 @@ class MainFragment : BrowseSupportFragment() {
     }
 
     private fun setOnItemClickedAfterSelectingListener(){
+
         this.onItemViewClickedListener =
             OnItemViewClickedListener { _: Presenter.ViewHolder?, item: Any, _: RowPresenter.ViewHolder, _: Row? ->
-                if(item is Movie) toast(" clicked  item : ${item.title}")
-                else toast("clicked item: $item")
+                (item as? Movie)?.let {
+                    toast(" clicked  item : ${item.title}")
+                    Section.onDataClick(context.getCT(),it)
+                }
+
             }
     }
 
