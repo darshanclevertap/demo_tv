@@ -12,6 +12,7 @@ import com.clevertap.android.sdk.interfaces.NotificationHandler
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener
 import com.clevertap.android.sdk.pushnotification.PushConstants
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener
+import com.google.firebase.FirebaseApp
 
 
 class MainApp : Application() {
@@ -19,6 +20,8 @@ class MainApp : Application() {
     var ctCoreApi:CleverTapAPI? = null
 
     override fun onCreate() {
+
+        //FirebaseApp.initializeApp(this)
         log("ctInitLogging: ")
         CleverTapAPI.setDebugLevel(com.clevertap.android.sdk.CleverTapAPI.LogLevel.VERBOSE)
 
