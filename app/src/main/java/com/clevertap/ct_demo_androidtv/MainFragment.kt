@@ -76,7 +76,7 @@ class MainFragment : BrowseSupportFragment() {
             OnItemViewClickedListener { _: Presenter.ViewHolder?, item: Any, _: RowPresenter.ViewHolder, _: Row? ->
                 (item as? Movie)?.let {
                     toast(" clicked  item : ${item.title}")
-                    Section.onDataClick(context.getCT(),it)
+                    Section.onDataClick(context.getCT(),it,activity)
                 }
 
             }

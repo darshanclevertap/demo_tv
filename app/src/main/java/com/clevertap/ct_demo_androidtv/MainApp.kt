@@ -32,6 +32,8 @@ class MainApp : Application() {
 
         log("ctInitGlobalInstance: ")
         ctCoreApi = CleverTapAPI.getDefaultInstance(applicationContext)
+
+        ctNotificiations()
     }
 
 

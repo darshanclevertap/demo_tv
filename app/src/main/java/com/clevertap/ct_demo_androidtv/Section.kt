@@ -1,9 +1,16 @@
 package com.clevertap.ct_demo_androidtv
 
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.core.os.bundleOf
+import androidx.fragment.app.FragmentActivity
 import com.clevertap.android.sdk.CleverTapAPI
+import com.google.firebase.messaging.RemoteMessage
 import java.io.Serializable
-import java.util.Date
+import java.util.*
 import kotlin.random.Random
+
 
 data class Section(
     val header:String,
@@ -20,6 +27,10 @@ data class Section(
 
     companion object{
         fun data() : List<Section>{
+            val systemSettings = listOf(
+                Movie(101,"Get Alert Permission")
+            )
+
             val profileRelated = listOf(
                 Movie(1,"pushProfile","update existing profile"),
                 Movie(2,"onUserLogin","crete new User Profile"),
@@ -37,6 +48,7 @@ data class Section(
             val placeHolder = (1..5).map { Movie() }
 
             return listOf(
+                Section("System Settings", systemSettings),
                 Section("Profile",profileRelated),
                 Section("Events",events),
                 Section("Push Notifications",placeHolder),
@@ -51,16 +63,22 @@ data class Section(
         }
 
 
-        fun onDataClick(ctApi:CleverTapAPI, clickedMovie:Movie){
+        fun onDataClick(ctApi: CleverTapAPI, clickedMovie: Movie, activity: FragmentActivity?){
             when(clickedMovie.id){
                 1 ->{
                     val random = Random.nextInt()
-                    val map = hashMapOf<String,Any>("Name" to "tv_user$random", "Email" to "tv_user@gmail.com",)
+                    val map = hashMapOf<String,Any>(
+                        "Name" to "tv_user$random",
+                        "Email" to "tv_user@gmail.com"
+                    )
                     ctApi.pushProfile(map)
                 }
                 2 ->{
                     val random = Random.nextInt()
-                    val map = hashMapOf<String,Any>("Name" to "tv_user", "Email" to "tv_user@gmail.com$random",)
+                    val map = hashMapOf<String,Any>(
+                        "Name" to "tv_user",
+                        "Email" to "tv_user@gmail.com$random"
+                    )
                     ctApi.onUserLogin(map)
                 }
                 3 ->{
@@ -75,6 +93,16 @@ data class Section(
                     val charges = hashMapOf<String,Any>("Total Number Of Items" to "4", "Total Amount" to "400")
                     val items = arrayListOf(hashMapOf<String,Any>("Item name" to "jeans", "Number of Items" to "4", "Item category" to "clothing", "Amount" to "400"))
                     ctApi.pushChargedEvent(charges,items)
+                }
+                101 ->{
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(activity)) {
+                        val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+                        activity!!.startActivity(myIntent)
+                    }
+                    else{
+                        log("you already have permission.showing view")
+                        MyFcmMessageListenerService.floatingNotif(activity!!, RemoteMessage(bundleOf()))
+                    }
                 }
             }
 
