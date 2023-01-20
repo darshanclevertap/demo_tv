@@ -12,7 +12,10 @@ import com.clevertap.android.sdk.interfaces.NotificationHandler
 import com.clevertap.android.sdk.pushnotification.CTPushNotificationListener
 import com.clevertap.android.sdk.pushnotification.PushConstants
 import com.clevertap.android.sdk.pushnotification.amp.CTPushAmpListener
-import com.google.firebase.FirebaseApp
+import com.clevertap.ct_demo_androidtv.utils.log
+import com.clevertap.ct_demo_androidtv.utils.logBundle
+import com.clevertap.ct_demo_androidtv.utils.showNotif
+import com.clevertap.ct_demo_androidtv.utils.toBundle
 
 
 class MainApp : Application() {
@@ -35,9 +38,6 @@ class MainApp : Application() {
 
         ctNotificiations()
     }
-
-
-
 
     private fun ctNotificiations() {
         log("ctNotifCreateChannels: ")

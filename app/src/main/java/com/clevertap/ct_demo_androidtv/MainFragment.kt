@@ -8,6 +8,8 @@ import android.util.DisplayMetrics
 import android.util.Log
 import androidx.leanback.widget.*
 import com.clevertap.ct_demo_androidtv.Section.Movie
+import com.clevertap.ct_demo_androidtv.utils.CardPresenter
+import com.clevertap.ct_demo_androidtv.utils.toast
 
 class MainFragment : BrowseSupportFragment() {
     @Deprecated("")

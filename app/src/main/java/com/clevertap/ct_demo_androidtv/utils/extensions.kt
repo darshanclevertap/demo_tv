@@ -1,4 +1,4 @@
-package com.clevertap.ct_demo_androidtv
+package com.clevertap.ct_demo_androidtv.utils
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
