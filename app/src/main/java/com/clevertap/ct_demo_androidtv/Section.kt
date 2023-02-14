@@ -38,8 +38,11 @@ data class Section(
             profileRelated.forEach { it.cardImageUrl = R.drawable.ct_bg_1 }
 
             val events = listOf(
-                Movie(4,"pushEvent","push an event with parameters"),
-                Movie(5,"pushChargedEvent","push a charged Event")
+                Movie(4,"pushEvent","push an event"),
+                Movie(5,"pushEvent (props)","push an event with parameters"),
+                Movie(6,"pushChargedEvent","push a charged Event"),
+                Movie(7,"addMultiValueForKey","Add a user property"),
+                Movie(8,"removeValueForKey","Remove a user property"),
             )
             events.forEach { it.cardImageUrl = R.drawable.ct_bg_2 }
 
@@ -49,14 +52,7 @@ data class Section(
             return listOf(
                 Section("System Settings", systemSettings),
                 Section("Profile",profileRelated),
-                Section("Events",events),
-                Section("Push Notifications",placeHolder),
-                Section("App inbox",placeHolder),
-                Section("In Apps",placeHolder),
-                Section("Feature Flags & product config",placeHolder),
-                Section("Native Display",placeHolder),
-                Section("Geo Fence",placeHolder),
-
+                Section("Events",events)
                 )
 
         }
@@ -67,8 +63,8 @@ data class Section(
                 1 ->{
                     val random = Random.nextInt()
                     val map = hashMapOf<String,Any>(
-                        "Name" to "tv_user$random",
-                        "Email" to "tv_user@gmail.com"
+                        "Name" to "new_tv_user$random",
+                        "Email" to "new_tv_user@gmail.com"
                     )
                     ctApi.pushProfile(map)
                 }
@@ -76,7 +72,7 @@ data class Section(
                     val random = Random.nextInt()
                     val map = hashMapOf<String,Any>(
                         "Name" to "tv_user",
-                        "Email" to "tv_user@gmail.com$random"
+                        "Email" to "tv_user$random@gmail.com"
                     )
                     ctApi.onUserLogin(map)
                 }
@@ -84,15 +80,23 @@ data class Section(
                     ctApi.getCleverTapID { log("received id : $it") }
                 }
 
-                4 -> {
+                4 -> ctApi.pushEvent("BUTTON_PRESSED")
+
+                5 -> {
                     val date = Date().toString()
                     ctApi.pushEvent("REMOTE_BUTTON_PRESSED", mapOf("time" to date))
                 }
-                5 -> {
+
+                6 -> {
                     val charges = hashMapOf<String,Any>("Total Number Of Items" to "4", "Total Amount" to "400")
                     val items = arrayListOf(hashMapOf<String,Any>("Item name" to "jeans", "Number of Items" to "4", "Item category" to "clothing", "Amount" to "400"))
                     ctApi.pushChargedEvent(charges,items)
                 }
+
+                7 -> ctApi.addMultiValueForKey("userTVCount","1")
+
+                8 -> ctApi.removeValueForKey("userTVCount")
+
                 101 ->{
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !Settings.canDrawOverlays(activity)) {
                         val myIntent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
