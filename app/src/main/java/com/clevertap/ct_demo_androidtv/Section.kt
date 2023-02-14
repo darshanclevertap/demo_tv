@@ -100,7 +100,7 @@ data class Section(
                     }
                     else{
                         log("you already have permission.showing view")
-                        MyFcmMessageListenerService.floatingNotif(activity!!)
+                        //MyFcmMessageListenerService.floatingNotif(activity!!)
                     }
                 }
             }
