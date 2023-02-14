@@ -22,9 +22,7 @@ class CardPresenter : Presenter() {
         Log.d(TAG, "onCreateViewHolder")
 
         sDefaultBackgroundColor = ContextCompat.getColor(parent.context, R.color.default_background)
-        sSelectedBackgroundColor = ContextCompat.getColor(parent.context,
-            R.color.selected_background
-        )
+        sSelectedBackgroundColor = ContextCompat.getColor(parent.context, R.color.selected_background)
         mDefaultCardImage = ContextCompat.getDrawable(parent.context, R.drawable.movie)
 
         val cardView = object : ImageCardView(parent.context) {
@@ -45,16 +43,14 @@ class CardPresenter : Presenter() {
         val cardView = viewHolder.view as ImageCardView
 
         Log.d(TAG, "onBindViewHolder")
-        if (movie.cardImageUrl != null) {
-            cardView.titleText = movie.title
-            cardView.contentText = movie.details
-            cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
-            Glide.with(viewHolder.view.context)
-                .load(movie.cardImageUrl)
-                .centerCrop()
-                .error(mDefaultCardImage)
-                .into(cardView.mainImageView)
-        }
+        cardView.titleText = movie.title
+        cardView.contentText = movie.details
+        cardView.setMainImageDimensions(CARD_WIDTH, CARD_HEIGHT)
+        Glide.with(viewHolder.view.context)
+            .load("https://via.placeholder.com/350/000000/FFFFFF?text="+movie.title.replace(" ","+"))
+            .centerCrop()
+            .error(movie.cardImageUrl)
+            .into(cardView.mainImageView)
     }
 
     override fun onUnbindViewHolder(viewHolder: Presenter.ViewHolder) {
