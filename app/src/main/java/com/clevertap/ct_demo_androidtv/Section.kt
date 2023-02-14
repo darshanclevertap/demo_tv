@@ -3,11 +3,9 @@ package com.clevertap.ct_demo_androidtv
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
-import androidx.core.os.bundleOf
 import androidx.fragment.app.FragmentActivity
 import com.clevertap.android.sdk.CleverTapAPI
 import com.clevertap.ct_demo_androidtv.utils.log
-import com.google.firebase.messaging.RemoteMessage
 import java.io.Serializable
 import java.util.*
 import kotlin.random.Random
@@ -102,7 +100,7 @@ data class Section(
                     }
                     else{
                         log("you already have permission.showing view")
-                        NotifUtil.floatingNotif(activity!!, RemoteMessage(bundleOf()))
+                        MyFcmMessageListenerService.floatingNotif(activity!!)
                     }
                 }
             }
