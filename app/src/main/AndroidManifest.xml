@@ -32,13 +32,13 @@
         </activity>
 
 
-        <service
-            android:name="com.clevertap.ct_demo_androidtv.MyFcmMessageListenerService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
+<!--        <service-->
+<!--            android:name="com.clevertap.ct_demo_androidtv.MyFcmMessageListenerService"-->
+<!--            android:exported="true">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="com.google.firebase.MESSAGING_EVENT" />-->
+<!--            </intent-filter>-->
+<!--        </service>-->
 
 
     </application>
